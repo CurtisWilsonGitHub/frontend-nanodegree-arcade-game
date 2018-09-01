@@ -23,6 +23,8 @@ Enemy.prototype.update = function(dt) {
       this.speed = 100 + Math.floor(Math.random() * 300)
     }
 
+    collision(this.x,this.y,player.x,player.y);
+
     this.x += this.speed * dt;
 };
 
@@ -50,8 +52,34 @@ Player.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 };
 
-Player.prototype.handleInput = function(){
-
+Player.prototype.handleInput = function(input){
+  switch(input){
+    case 'left':
+      if(this.x <= 0){
+        this.x = 0;
+      }else{
+        this.x -= 100;
+        }
+      break;
+    case 'right':
+      if(this.x >= 400){
+        this.x = 400;
+      }else{
+        this.x += 100;
+      }
+      break;
+    case 'up':
+      this.y -= 90;
+      console.log(this.y);
+     break;
+    case 'down':
+      if(this.y >= 400){
+        this.y = 400;
+      }else{
+        this.y += 90;
+      }
+      break;
+  }
 };
 
 
@@ -63,7 +91,7 @@ var allEnemies = [];
 var player = new Player(200,400,50);
 
 
-var enemySpawn = [60,140,220];
+var enemySpawn = [40,130,220];
 
 enemySpawn.forEach(function(yCord){
   var enemy = new Enemy(0, yCord, 100 + Math.floor(Math.random() * 300));
@@ -83,3 +111,12 @@ document.addEventListener('keyup', function(e) {
 
     player.handleInput(allowedKeys[e.keyCode]);
 });
+
+
+var collision = function(enemyX, enemyY, charX, charY){
+  if(enemyX >= charX - 50 && enemyX <= charX ){
+    if(enemyY == charY){
+      console.log('Collision!');
+    }
+  }
+}

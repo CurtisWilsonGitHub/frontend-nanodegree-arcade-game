@@ -116,7 +116,13 @@ document.addEventListener('keyup', function(e) {
 var collision = function(enemyX, enemyY, charX, charY){
   if(enemyX >= charX - 50 && enemyX <= charX ){
     if(enemyY == charY){
-      console.log('Collision!');
+      console.log('doh!');
+      gameReset();
     }
   }
+}
+
+var gameReset = function(){
+  player.x = 200;
+  player.y = 400;
 }

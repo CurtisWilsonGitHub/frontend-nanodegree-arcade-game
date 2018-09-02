@@ -1,23 +1,13 @@
 // Enemies our player must avoid
-var Enemy = function(x, y, speed) {
+let Enemy = function(x, y, speed) {
     this.x = x;
     this.y = y;
     this.speed = speed;
-    // Variables applied to each of our instances go here,
-    // we've provided one for you to get started
-
-    // The image/sprite for our enemies, this uses
-    // a helper we've provided to easily load images
     this.sprite = 'images/enemy-bug.png';
 };
 
-// Update the enemy's position, required method for game
-// Parameter: dt, a time delta between ticks
-Enemy.prototype.update = function(dt) {
-    // You should multiply any movement by the dt parameter
-    // which will ensure the game runs at the same speed for
-    // all computers.
 
+Enemy.prototype.update = function(dt) {
     if (this.x > 510){
       this.x = 0;
       this.speed = 100 + Math.floor(Math.random() * 300)
@@ -37,7 +27,7 @@ Enemy.prototype.render = function() {
 // This class requires an update(), render() and
 // a handleInput() method.
 
-var Player = function(x,y,speed){
+let Player = function(x,y,speed){
   this.x = x;
   this.y = y;
   this.speed = speed;
@@ -85,16 +75,16 @@ Player.prototype.handleInput = function(input){
 
 // Now instantiate your objects.
 // Place all enemy objects in an array called allEnemies
-// Place the player object in a variable called player
+// Place the player object in a letiable called player
 
-var allEnemies = [];
-var player = new Player(200,400,50);
+let allEnemies = [];
+let player = new Player(200,400,50);
 
 
-var enemySpawn = [40,130,220];
+let enemySpawn = [40,130,220];
 
 enemySpawn.forEach(function(yCord){
-  var enemy = new Enemy(0, yCord, 100 + Math.floor(Math.random() * 300));
+  let enemy = new Enemy(0, yCord, 100 + Math.floor(Math.random() * 300));
   allEnemies.push(enemy);
 });
 
@@ -102,7 +92,7 @@ enemySpawn.forEach(function(yCord){
 // This listens for key presses and sends the keys to your
 // Player.handleInput() method. You don't need to modify this.
 document.addEventListener('keyup', function(e) {
-    var allowedKeys = {
+    let allowedKeys = {
         37: 'left',
         38: 'up',
         39: 'right',
@@ -113,16 +103,46 @@ document.addEventListener('keyup', function(e) {
 });
 
 
-var collision = function(enemyX, enemyY, charX, charY){
+let collision = function(enemyX, enemyY, charX, charY){
   if(enemyX >= charX - 50 && enemyX <= charX ){
     if(enemyY == charY){
-      console.log('doh!');
       gameReset();
     }
   }
 }
 
-var gameReset = function(){
+let gameReset = function(){
   player.x = 200;
   player.y = 400;
+  player.sprite = charConveryor();
+}
+
+
+let characters = [
+  'images/char-boy.png',
+  'images/char-horn-girl.png',
+  'images/char-pink-girl.png',
+  'images/char-princess-girl.png'
+];
+
+let charConveryor = function(){
+  if(characters[0] === undefined){
+    characters = [
+      'images/char-cat-girl.png',
+      'images/char-boy.png',
+      'images/char-horn-girl.png',
+      'images/char-pink-girl.png',
+      'images/char-princess-girl.png'
+    ];
+    gameOver();
+    return characters.shift();
+  }else{
+    return characters.shift();
+  }
+}
+
+
+let gameOver = function(){
+  document.getElementById('gameOverModal').style.display ="inline";
+  document.getElementById('gameOverModal').classList.add('fadeIn');
 }

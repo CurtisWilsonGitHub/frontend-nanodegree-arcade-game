@@ -69,8 +69,14 @@ Player.prototype.handleInput = function(input){
       }
       break;
     case 'up':
-      this.y -= 90;
-      console.log(this.y);
+      if(this.y <=40){
+        this.y = 400;
+        this.x = 200;
+        alert('Congratulations!')
+      }else{
+        this.y -= 90;
+      }
+
      break;
     case 'down':
       if(this.y >= 400){
